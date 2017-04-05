@@ -19,8 +19,10 @@
             <input type="text" name="login" placeholder="login" class="form-control">
             <input type="email" name="email" placeholder="email" class="form-control">
             <input type="password" name="password" placeholder="pass" class="form-control">
-            <button type="submit" name="submit" class="btn btn-primary">Sign in</button>
+            <button type="submit" name="submit" class="btn btn-primary" style="margin: 10px 0;">Sign in</button>
         </form>
+        <a href="login.php" class="btn btn-default" style="float: right">login</a>
+        <a href="index.php" class="btn btn-default" style="float: right; margin-right: 10px;">Main page</a>
     </div>
 </body>
 </html>

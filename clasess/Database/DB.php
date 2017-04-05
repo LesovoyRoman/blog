@@ -1,5 +1,5 @@
 <?php
-//require_once './clasess/Post/Post.php';
+
 class DB
 {
     private $host;

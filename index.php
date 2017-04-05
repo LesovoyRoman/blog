@@ -13,7 +13,8 @@
 <style>
     * {box-sizing: border-box;}
 </style>
-<?php session_start() ;?>
+<?php session_start();?>
+
     <div class="container" style="width: 100%; padding: 0; position: fixed; top:0;">
         <form class="navbar-form  navbar navbar-default" role="search" style="padding: 10px; margin-top: 0;
         border-radius: 0; background: rgba(0, 0, 0, 0.73);">
@@ -35,6 +36,7 @@
 
     <?php require_once './clasess/Post/Post.php'; $posts = Post::getPosts();?>
     <?php foreach ($posts as $post) :?>
+
         <div class="container" style="border: 5px black dashed; border-radius: 10px; width: 100%;
         max-width: 600px; margin: 80px auto; padding: 20px;">
                 <div class="thumbnail">
@@ -51,16 +53,37 @@
                     </div>
                         <div>
                             <?php
-                                $delete = "<a class='btn btn-default label-danger' style='float:right; margin: 20px auto;'  role='button' href='";
-                                $delete .= "delete.php?remove_id={$post["id"]}";
-                                $delete .= "'>Delete Post</a>";
+                            require_once './clasess/Likes/Likes.php';
+                            $likes = Like::getLikes($post['id']);
 
-                                $update = "<a class='btn btn-primary' style='margin:20px 0;' role='button' href='";
-                                $update.= "update.php?update_id={$post["id"]}";
-                                $update.= "'>Update Post</a>";
+                            foreach ($likes as $like_curr) {
+                                $check_likes = Like::checkLikes($post['id']);
+                                    if ($check_likes == true) {
+                                        $like = "<a class='btn badge' style='margin:20px; background: #337ab7; margin-left:0; font-size:20px;' role='button' href='";
+                                    } else {
+                                        $like = "<a class='btn badge' style='margin:20px; margin-left:0; font-size:20px;' role='button' href='";
+                                    }
 
-                                echo $update;
-                                echo $delete."<br>";
+                                $like .= "like.php?post_id={$post["id"]}";
+                                $like .= "'>❤ $like_curr[0]</a>";
+                                echo $like;
+                            }
+
+                                 if(isset($_SESSION['user'])){
+                                    if ($_SESSION['user']['login'] == 'roman') {
+                                        $delete = "<a class='btn btn-primary label-danger' style='float:right; margin: 20px auto; border:1px solid grey; background:#584B4B;'  role='button' href='";
+                                        $delete .= "delete.php?remove_id={$post["id"]}";
+                                        $delete .= "'>Delete Post</a>";
+
+                                        $update = "<a class='btn btn-primary' style='margin:20px 0; border:1px solid grey; background:#584B4B;' role='button' href='";
+                                        $update .= "update.php?update_id={$post["id"]}";
+                                        $update .= "'>Update Post</a>";
+
+                                        echo $update;
+                                        echo $delete . "<br>";
+
+                                    }
+                                }
                                 ?>
                         </div>
                     </div>

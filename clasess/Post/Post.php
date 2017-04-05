@@ -1,12 +1,9 @@
 <?php
-//require_once './clasess/Database/DB.php';
 
-require_once './clasess/Database/DB.php';
-require_once './clasess/User/User.php';
-//require_once './../User/User.php';
+require_once(dirname(__FILE__).'/../Database/DB.php');
+require_once(dirname(__FILE__).'/../User/User.php');
+require_once(dirname(__FILE__).'/../Likes/Likes.php');
 
-//print_r($_SERVER['SCRIPT_FILENAME']);
-//die;
 class Post
 {
     public $title;
@@ -76,6 +73,7 @@ posts LEFT JOIN user ON(user.id = posts.id_user) WHERE :all ORDER BY time DESC";
         ];
         $db = self::getDb();
 
+
         return $db->select($sql, $params);
     }
 
@@ -91,6 +89,8 @@ posts LEFT JOIN user ON(user.id = posts.id_user) WHERE :all ORDER BY time DESC";
 
         return $db->selectRow($sql, $params);
     }
+
+
 }
 
 

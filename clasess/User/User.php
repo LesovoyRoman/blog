@@ -1,9 +1,8 @@
 <?php
-//require_once './../Database/DB.php';
-require_once './clasess/Database/DB.php';
-require_once 'validator.php';
-//require_once './../Post/Post.php';
-require_once './clasess/Post/Post.php';
+
+require_once(dirname(__FILE__).'/../Database/DB.php');
+require_once(dirname(__FILE__).'/../../validator.php');
+require_once(dirname(__FILE__).'/../Post/Post.php');
 class User
 {
     public $login;
@@ -65,7 +64,7 @@ class User
         $validator_login->valid_symbols();
 
         $validator_pass = new Validator($this->password);
-        $validator_pass->between(6, 36);
+        $validator_pass->between(6, 15);
 
         if (empty($validator_email->errors) && empty($validator_login->errors) && empty($validator_pass->errors))
         {
@@ -109,7 +108,7 @@ class User
         }
     }
 
-    private function getUser()
+    public static function getUser()
     {
         return isset($_SESSION['user']) ? $_SESSION['user'] : false;
     }
