@@ -12,7 +12,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
     <title>Update</title>
 </head>
-<body style="background: url('black-linen.png') repeat">
+<body style="background: url('../img/black-linen.png') repeat">
 
 <div class="container" style="border: 5px black dashed; border-radius: 10px; width: 100%;
         max-width: 700px; margin: 30px auto; padding: 20px;">
@@ -20,8 +20,6 @@
         <input type="text" name="title" placeholder="title" class="form-control">
         <textarea name="text" id="text" placeholder="text" class="form-control"></textarea>
         <input type="hidden" value="<?=$_GET['update_id'];?>" name="id">
-
-    <a href="index.php" class="btn btn-default" style="margin: 10px 0">Cancel</a>
 
 
 <script type="text/javascript">
@@ -31,25 +29,42 @@
 </script>
 
     <?php
-    require_once './clasess/Post/Post.php';
-    session_start();
+    require_once '../clasess/Post/Post.php';
+
+    $status = session_status();
+    if($status == PHP_SESSION_NONE){
+        session_start();
+    }
+    if(!isset($_SESSION['lang'])){
+        $_SESSION['lang'] = 'eng';
+    }
+    if($_SESSION['lang'] == 'rus'){
+        $cancel = 'Назад';
+        $save = 'Сохранить';
+
+    } else if($_SESSION['lang'] == 'eng'){
+        $cancel = 'Cancel';
+        $save = 'Save';
+    }
+
     if (isset($_SESSION['user'])) {
         if ($_SESSION['user']['login'] == 'roman') {
-            echo "<button type='submit' class='btn btn-primary'>Save</button>";
-        } else if($_SESSION['user']['login'] != 'roman') {
-            echo "<h2 style='text-align: center'>You can't change Post</h2>";
+            global $save;
+            echo "<button type='submit' class='btn btn-primary' role='button'>$save</button>";
         }
-    } else {
-        echo "<h2 style='text-align: center'>You can't change Post</h2>";
     }
 
     if(!empty($_POST) && $_SESSION['user']['login'] == 'roman')
     {
         Post::updatePost($_POST, $_POST['id']);
-        header("Location: index.php");
+        header("Location: ../index.php");
     }
     ?>
     </form>
+        <a href="../index.php" class="btn btn-default" style="margin: 10px 0; float: right;">
+            <?php global $cancel; echo $cancel;?>
+        </a>
+
 </div>
 </body>
 </html>

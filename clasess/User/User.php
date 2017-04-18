@@ -3,6 +3,8 @@
 require_once(dirname(__FILE__).'/../Database/DB.php');
 require_once(dirname(__FILE__).'/../../validator.php');
 require_once(dirname(__FILE__).'/../Post/Post.php');
+require_once(dirname(__FILE__).'/../Messages/Messages.php');
+
 class User
 {
     public $login;
@@ -24,11 +26,11 @@ class User
     public function login()
     {
 
+
         if (!empty($this->login) && !empty($this->password))
         {
             $sql = "SELECT DISTINCT * FROM user WHERE login = :login";
             $params = [
-//                ':table_name' => 'user',
                 ':login' => $this->login
             ];
 
@@ -49,10 +51,6 @@ class User
         }
     }
 
-    public function logout()
-    {
-        // 1) unset(S_SESSION['user']);
-    }
 
     public function registration()
     {
@@ -64,7 +62,7 @@ class User
         $validator_login->valid_symbols();
 
         $validator_pass = new Validator($this->password);
-        $validator_pass->between(6, 15);
+        $validator_pass->between(6, 100);
 
         if (empty($validator_email->errors) && empty($validator_login->errors) && empty($validator_pass->errors))
         {
@@ -104,6 +102,20 @@ class User
             $result = $post->create();
             if ($result){
                 header("Location: index.php");
+            }
+        }
+    }
+
+    public static function createMessage(array $messageData)
+    {
+        $user = self::getUser();
+        if($user) {
+            $author_id = $user['id'];
+            $messageData['author_id'] = $author_id;
+            $message = new Messages($messageData);
+            $result = $message->createMessage();
+            if($result) {
+                header("Location: messages.php");
             }
         }
     }

@@ -83,21 +83,3 @@ class DB
     }
 }
 
-/*$db = new DB('mazafaka', 'root', 'Ktcjdjq1997');
-$db->setDb('coworking');
-$db->connect();
-
-$sql = "INSERT INTO products(name, price, count, category_id) VALUES (:name, :price, :count, :category_id)";
-
-$params = [
-    ':name' => 'WRX STI',
-    ':price' => 15000,
-    ':count' => 500,
-    ':category_id' => 4
-];
-
-$result = $db->select($sql, $params);
-
-$result = $db->query($sql, $params);
-
-print_r($result);*/
